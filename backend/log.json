@@ -12,5 +12,26 @@
     "phone": "+917389506331",
     "message": "Hi Anush, excited to help you start your US Full Stack Developer journey with BorderPlus!",
     "status": "sent"
+  },
+  {
+    "timestamp": "2025-05-03T18:43:42.198Z",
+    "name": "Anush",
+    "phone": "+917389506331",
+    "message": "Hello Anush, are you ready to explore opportunities in US Full Stack Developer? BorderPlus is here for you.",
+    "status": "sent"
+  },
+  {
+    "timestamp": "2025-05-03T18:44:41.615Z",
+    "name": "Anush",
+    "phone": "+917389506331",
+    "message": "Hey Anush! BorderPlus can guide you to success in US Full Stack Developer. Let’s get started.",
+    "status": "sent"
+  },
+  {
+    "timestamp": "2025-05-03T18:44:41.898Z",
+    "name": "Mihir",
+    "phone": "+917566520720",
+    "message": "Hi Mihir, excited to help you start your IN Full Stack Developer at Sephora journey with BorderPlus!",
+    "status": "failed"
   }
 ]

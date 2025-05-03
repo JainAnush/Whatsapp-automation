@@ -2,6 +2,7 @@ const express = require("express");
 const fs = require("fs");
 const csv = require("csv-parser");
 const path = require("path");
+const fsPromises = require("fs/promises");
 const { getRandomTemplate } = require("./messageTemplates");
 
 require("dotenv").config({ path: __dirname + "/.env" });
@@ -18,6 +19,7 @@ const client = twilio(
   process.env.TWILIO_AUTH_TOKEN
 );
 
+let leads = [];
 // Load leads from CSV
 function loadLeads() {
   return new Promise((resolve, reject) => {
@@ -33,8 +35,6 @@ function loadLeads() {
   });
 }
 
-let leads = [];
-
 // API endpoint to print message previews
 app.get("/preview-messages", (req, res) => {
   const previews = leads.map((lead) => ({
@@ -46,30 +46,72 @@ app.get("/preview-messages", (req, res) => {
 });
 
 app.post("/sendCampaign", async (req, res) => {
-  if (leads.length === 0) {
-    leads = await loadLeads(); // Ensure leads are loaded
-  }
-
-  const results = [];
-
-  for (const lead of leads) {
-    const personalizedMessage = getRandomTemplate(lead.name, lead.interest);
-    try {
-      const result = await sendWhatsAppMessage(lead.phone, personalizedMessage);
-      results.push({ name: lead.name, status: "sent", sid: result.sid });
-      logMessage(lead.name, lead.phone, personalizedMessage, "sent");
-    } catch (err) {
-      console.error(`Failed for ${lead.name}:`, err.message);
-      results.push({ name: lead.name, status: "failed", error: err.message });
-      logMessage(lead.name, lead.phone, personalizedMessage, "failed");
+  try {
+    const results = [];
+    const logs = [];
+    console.log("leads", leads);
+    for (const lead of leads) {
+      const personalizedMessage = getRandomTemplate(lead.name, lead.interest);
+      try {
+        console.log(
+          `📤 Sending message to ${lead.phone}: "${personalizedMessage}"`
+        );
+        const result = await sendWhatsAppMessage(
+          lead.phone,
+          personalizedMessage
+        );
+        results.push({ name: lead.name, status: "sent", sid: result.sid });
+        logs.push({
+          timestamp: new Date().toISOString(),
+          name: lead.name,
+          phone: lead.phone,
+          message: personalizedMessage,
+          status: "sent",
+        });
+        console.log("message sent", results);
+      } catch (err) {
+        console.error(`❌ Failed for ${lead.name}:`, err.message);
+        results.push({ name: lead.name, status: "failed", error: err.message });
+        logs.push({
+          timestamp: new Date().toISOString(),
+          name: lead.name,
+          phone: lead.phone,
+          message: personalizedMessage,
+          status: "failed",
+        });
+      }
     }
-  }
 
-  res.json(results); // <-- This should now return the array as expected
+    // Write all logs once at the end
+    await writeLogBatch(logs);
+
+    res.json(results);
+  } catch (err) {
+    console.error("🔥 Error in sendCampaign:", err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
+app.post(
+  "/incoming-message",
+  express.urlencoded({ extended: false }),
+  (req, res) => {
+    const from = req.body.From; // format: whatsapp:+91XXXX
+    const body = req.body.Body;
+
+    console.log(`Received message from ${from}: ${body}`);
+
+    // Update followupStatus.json here with hasResponded = true
+    // (we can build this logic next)
+
+    res.sendStatus(200);
+  }
+);
+
 // Load leads on server start
-loadLeads();
+loadLeads().then((result) => {
+  leads = result;
+});
 
 function sendWhatsAppMessage(to, message) {
   return client.messages.create({
@@ -79,38 +121,23 @@ function sendWhatsAppMessage(to, message) {
   });
 }
 
-function logMessage(name, phone, message, status) {
-  const log = {
-    timestamp: new Date().toISOString(),
-    name,
-    phone,
-    message,
-    status,
-  };
-
+async function writeLogBatch(logsToWrite) {
   const logFile = path.join(__dirname, "log.json");
-  let existingLogs = [];
 
   try {
+    let existingLogs = [];
+
     if (fs.existsSync(logFile)) {
-      const content = fs.readFileSync(logFile, "utf-8").trim();
+      const content = (await fsPromises.readFile(logFile, "utf-8")).trim();
       existingLogs = content ? JSON.parse(content) : [];
     }
-  } catch (err) {
-    console.error(
-      "⚠️ Failed to read or parse log.json. Initializing empty log. Error:",
-      err.message
-    );
-    existingLogs = [];
-  }
 
-  existingLogs.push(log);
+    const updatedLogs = existingLogs.concat(logsToWrite);
 
-  try {
-    fs.writeFileSync(logFile, JSON.stringify(existingLogs, null, 2));
-    console.log("✅ Log written to log.json");
+    await fsPromises.writeFile(logFile, JSON.stringify(updatedLogs, null, 2));
+    console.log("✅ All logs written.");
   } catch (err) {
-    console.error("❌ Failed to write log.json:", err.message);
+    console.error("❌ Failed to write logs:", err.message);
   }
 }
 
