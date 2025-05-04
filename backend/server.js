@@ -4,20 +4,24 @@ const csv = require("csv-parser");
 const path = require("path");
 const fsPromises = require("fs/promises");
 const { getRandomTemplate } = require("./messageTemplates");
+const db = require("./db");
+
+const cors = require("cors");
 
 require("dotenv").config({ path: __dirname + "/.env" });
-const twilio = require("twilio");
+const { sendWhatsAppMessage } = require("./sendWhatsappMessage");
 
 console.log("SID:", process.env.TWILIO_ACCOUNT_SID);
 console.log("Token:", process.env.TWILIO_AUTH_TOKEN);
 
-const app = express();
-const PORT = 3000;
+const FOLLOWUP_DELAY_SECONDS = parseInt(
+  process.env.FOLLOWUP_DELAY_SECONDS || "86400"
+); // default 24hrs
 
-const client = twilio(
-  process.env.TWILIO_ACCOUNT_SID,
-  process.env.TWILIO_AUTH_TOKEN
-);
+const app = express();
+
+app.use(cors());
+const PORT = 3000;
 
 let leads = [];
 // Load leads from CSV
@@ -35,6 +39,26 @@ function loadLeads() {
   });
 }
 
+function recordCampaign(phone, campaignId) {
+  // Check if a record already exists for this campaign and phone
+  const row = db
+    .prepare("SELECT * FROM followups WHERE phone = ? AND campaignId = ?")
+    .get(phone, campaignId);
+
+  if (!row) {
+    // First time sending this campaign to this user
+    db.prepare(
+      `
+      INSERT INTO followups (phone, campaignId, hasResponded, followupCount, status)
+      VALUES (?, ?, 0, 0, 'pending')
+      `
+    ).run(phone, campaignId);
+    console.log(`Campaign ${campaignId} inserted for ${phone}`);
+  } else {
+    console.log(`Campaign ${campaignId} already recorded for ${phone}`);
+  }
+}
+
 // API endpoint to print message previews
 app.get("/preview-messages", (req, res) => {
   const previews = leads.map((lead) => ({
@@ -49,9 +73,15 @@ app.post("/sendCampaign", async (req, res) => {
   try {
     const results = [];
     const logs = [];
+    const campaignId = `campaign-${Date.now()}`; // unique ID for this campaign
+
     console.log("leads", leads);
     for (const lead of leads) {
       const personalizedMessage = getRandomTemplate(lead.name, lead.interest);
+
+      // ✅ Track in SQLite
+      recordCampaign(lead.phone, campaignId);
+
       try {
         console.log(
           `📤 Sending message to ${lead.phone}: "${personalizedMessage}"`
@@ -82,9 +112,7 @@ app.post("/sendCampaign", async (req, res) => {
       }
     }
 
-    // Write all logs once at the end
     await writeLogBatch(logs);
-
     res.json(results);
   } catch (err) {
     console.error("🔥 Error in sendCampaign:", err);
@@ -96,14 +124,31 @@ app.post(
   "/incoming-message",
   express.urlencoded({ extended: false }),
   (req, res) => {
-    const from = req.body.From; // format: whatsapp:+91XXXX
-    const body = req.body.Body;
+    const from = req.body.From.replace("whatsapp:", "");
+    const messageBody = req.body.Body;
 
-    console.log(`Received message from ${from}: ${body}`);
+    // Find all pending campaigns for this phone
+    const pendingCampaigns = db
+      .prepare("SELECT * FROM followups WHERE phone = ? AND hasResponded = 0")
+      .all(from);
 
-    // Update followupStatus.json here with hasResponded = true
-    // (we can build this logic next)
+    console.log("pending campaigns", pendingCampaigns);
 
+    for (const campaign of pendingCampaigns) {
+      db.prepare(
+        `
+      UPDATE followups
+      SET hasResponded = 1,
+          status = 'responded',
+          lastUpdated = CURRENT_TIMESTAMP
+      WHERE id = ?
+    `
+      ).run(campaign.id);
+    }
+
+    console.log(
+      `Received reply from ${from}: "${messageBody}" — marked all pending as responded.`
+    );
     res.sendStatus(200);
   }
 );
@@ -112,14 +157,6 @@ app.post(
 loadLeads().then((result) => {
   leads = result;
 });
-
-function sendWhatsAppMessage(to, message) {
-  return client.messages.create({
-    from: process.env.TWILIO_PHONE_NUMBER,
-    to: `whatsapp:${to}`,
-    body: message,
-  });
-}
 
 async function writeLogBatch(logsToWrite) {
   const logFile = path.join(__dirname, "log.json");
@@ -144,3 +181,5 @@ async function writeLogBatch(logsToWrite) {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+require("./followupCron");

@@ -33,5 +33,68 @@
     "phone": "+917566520720",
     "message": "Hi Mihir, excited to help you start your IN Full Stack Developer at Sephora journey with BorderPlus!",
     "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-04T11:37:19.246Z",
+    "name": "Anush",
+    "phone": "+917389506331",
+    "message": "Hey Anush! BorderPlus can guide you to success in US Full Stack Developer. Let’s get started.",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-04T11:43:04.305Z",
+    "name": "Anush",
+    "phone": "+917389506331",
+    "message": "Hello Anush, are you ready to explore opportunities in US Full Stack Developer? BorderPlus is here for you.",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-04T11:43:04.581Z",
+    "name": "Parag",
+    "phone": "+919131818652",
+    "message": "Hello Parag, are you ready to explore opportunities in  IN Data Engineer? BorderPlus is here for you.",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-04T12:02:43.933Z",
+    "name": "Anush",
+    "phone": "+917389506331",
+    "message": "Hey Anush! BorderPlus can guide you to success in US Full Stack Developer. Let’s get started.",
+    "status": "sent"
+  },
+  {
+    "timestamp": "2025-05-04T12:02:44.215Z",
+    "name": "Parag",
+    "phone": "+919131818652",
+    "message": "Hello Parag, are you ready to explore opportunities in  IN Data Engineer? BorderPlus is here for you.",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-04T12:06:18.830Z",
+    "name": "Anush",
+    "phone": "+917389506331",
+    "message": "Hey Anush! BorderPlus can guide you to success in US Full Stack Developer. Let’s get started.",
+    "status": "sent"
+  },
+  {
+    "timestamp": "2025-05-04T12:06:19.115Z",
+    "name": "Parag",
+    "phone": "+919131818652",
+    "message": "Hi Parag, excited to help you start your  IN Data Engineer journey with BorderPlus!",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-04T12:11:32.621Z",
+    "name": "Anush",
+    "phone": "+917389506331",
+    "message": "Hello Anush, are you ready to explore opportunities in US Full Stack Developer? BorderPlus is here for you.",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-04T12:11:32.966Z",
+    "name": "Parag",
+    "phone": "+919131818652",
+    "message": "Hey Parag! BorderPlus can guide you to success in  IN Data Engineer. Let’s get started.",
+    "status": "sent"
   }
 ]
