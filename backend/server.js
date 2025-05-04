@@ -40,23 +40,39 @@ function loadLeads() {
 }
 
 function recordCampaign(phone, campaignId) {
-  // Check if a record already exists for this campaign and phone
-  const row = db
-    .prepare("SELECT * FROM followups WHERE phone = ? AND campaignId = ?")
-    .get(phone, campaignId);
+  console.log(`recordCampaign called for ${phone}, ${campaignId}`);
 
-  if (!row) {
-    // First time sending this campaign to this user
-    db.prepare(
-      `
-      INSERT INTO followups (phone, campaignId, hasResponded, followupCount, status)
-      VALUES (?, ?, 0, 0, 'pending')
-      `
-    ).run(phone, campaignId);
-    console.log(`Campaign ${campaignId} inserted for ${phone}`);
-  } else {
-    console.log(`Campaign ${campaignId} already recorded for ${phone}`);
-  }
+  // Execute the query directly with the phone and campaignId
+  db.get(
+    "SELECT * FROM followups WHERE phone = ? AND campaignId = ?",
+    [phone, campaignId],
+    (err, row) => {
+      if (err) {
+        console.error("Error fetching record:", err.message);
+        return;
+      }
+
+      console.log("row", row);
+
+      if (!row) {
+        // First time sending this campaign to this user
+        db.run(
+          `INSERT INTO followups (phone, campaignId, hasResponded, followupCount, status)
+        VALUES (?, ?, 0, 0, 'pending')`,
+          [phone, campaignId],
+          function (err) {
+            if (err) {
+              console.error(`Error inserting campaign: ${err.message}`);
+            } else {
+              console.log(`Campaign ${campaignId} inserted for ${phone}`);
+            }
+          }
+        );
+      } else {
+        console.log(`Campaign ${campaignId} already recorded for ${phone}`);
+      }
+    }
+  );
 }
 
 // API endpoint to print message previews
@@ -79,9 +95,6 @@ app.post("/sendCampaign", async (req, res) => {
     for (const lead of leads) {
       const personalizedMessage = getRandomTemplate(lead.name, lead.interest);
 
-      // ✅ Track in SQLite
-      recordCampaign(lead.phone, campaignId);
-
       try {
         console.log(
           `📤 Sending message to ${lead.phone}: "${personalizedMessage}"`
@@ -90,6 +103,10 @@ app.post("/sendCampaign", async (req, res) => {
           lead.phone,
           personalizedMessage
         );
+
+        // ✅ Track in SQLite if sent successfully
+        recordCampaign(lead.phone, campaignId);
+
         results.push({ name: lead.name, status: "sent", sid: result.sid });
         logs.push({
           timestamp: new Date().toISOString(),
@@ -127,29 +144,44 @@ app.post(
     const from = req.body.From.replace("whatsapp:", "");
     const messageBody = req.body.Body;
 
-    // Find all pending campaigns for this phone
-    const pendingCampaigns = db
-      .prepare("SELECT * FROM followups WHERE phone = ? AND hasResponded = 0")
-      .all(from);
+    // Find all pending campaigns for this phone using db.all() directly
+    db.all(
+      "SELECT * FROM followups WHERE phone = ? AND hasResponded = 0",
+      [from],
+      (err, rows) => {
+        if (err) {
+          console.error("Error fetching pending campaigns:", err);
+          res.sendStatus(500);
+          return;
+        }
 
-    console.log("pending campaigns", pendingCampaigns);
+        // Log to check the result
+        console.log("Pending campaigns:", rows);
 
-    for (const campaign of pendingCampaigns) {
-      db.prepare(
+        if (Array.isArray(rows) && rows.length > 0) {
+          // Iterate through the pending campaigns and mark as responded
+          rows.forEach((campaign) => {
+            db.prepare(
+              `
+          UPDATE followups
+          SET hasResponded = 1,
+              status = 'responded',
+              lastUpdated = CURRENT_TIMESTAMP
+          WHERE id = ?
         `
-      UPDATE followups
-      SET hasResponded = 1,
-          status = 'responded',
-          lastUpdated = CURRENT_TIMESTAMP
-      WHERE id = ?
-    `
-      ).run(campaign.id);
-    }
+            ).run(campaign.id);
+          });
 
-    console.log(
-      `Received reply from ${from}: "${messageBody}" — marked all pending as responded.`
+          console.log(
+            `Received reply from ${from}: "${messageBody}" — marked all pending as responded.`
+          );
+        } else {
+          console.log(`No pending campaigns found for ${from}`);
+        }
+
+        res.sendStatus(200);
+      }
     );
-    res.sendStatus(200);
   }
 );
 
