@@ -29,7 +29,7 @@ A simple WhatsApp automation tool for sending bulk messages with follow-ups and 
 ## ✨ Features
 
 - ✅ Campaign Sending
-- 🔁 Auto Follow-ups
+- 🔁 Auto Follow-ups (every minute)
 - 📊 Campaign Status Tracking
 - 🌐 Simple Web Dashboard (via frontend)
 
