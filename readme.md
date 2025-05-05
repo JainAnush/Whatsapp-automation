@@ -103,9 +103,47 @@ The frontend runs on `http://localhost:5500`.
   - Marks user as `not_interested` after 2 follow-ups.
 - The logs for sent and failed messages are logged in backend/logs.json file.
 
+## 📡 API Endpoints
+
+- GET /preview-messages
+  Returns a preview of messages generated for leads.
+
+- POST /sendCampaign
+  Triggers sending of campaign messages to all leads in leads.csv. A unique campaign ID is generated per run and tracked in the database.
+
+- POST /incoming-message
+  Webhook endpoint for Twilio to report incoming WhatsApp replies. Automatically updates user status as "responded".
+
+## ⏱ Follow-Up System
+
+- The system uses a cron job (followupCron.js) to check every few seconds (or as per .env) if any user:
+
+- Has not responded
+
+- Hasn't received more than 2 follow-ups
+
+- Is eligible based on last contact time
+
+- It sends a follow-up and updates their status. After 2 failed attempts, the user is marked as not_interested.
+
+## 📊 Database Schema
+
+- SQLite is used with the following schema (followups table):
+
+| Column        | Description                                     |
+| ------------- | ----------------------------------------------- |
+| id            | Primary key                                     |
+| phone         | User's phone number                             |
+| campaignId    | Unique campaign identifier                      |
+| hasResponded  | 0/1 flag for user response                      |
+| followupCount | Number of follow-ups sent                       |
+| status        | pending, followed_up, responded, not_interested |
+| lastUpdated   | Timestamp of last activity                      |
+
 ## 🛠 File Descriptions
 
-- **`server.js`** – Express server & cron job for follow-ups
+- **`server.js`** – Express server
+- **`followupCron.js`** - cron job for follow-ups
 - **`db.js`** – SQLite setup and schema for `followups`
 - **`sendWhatsappMessage.js`** – Twilio WhatsApp messaging logic
 - **`messageTemplates.js`** – Returns random personalized templates
