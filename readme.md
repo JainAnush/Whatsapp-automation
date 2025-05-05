@@ -163,7 +163,7 @@ The frontend runs on `http://localhost:5500`.
 
 - Intent Recognition from Replies
 
-  - Use Natural Language Processing (NLP) to classify the intent behind a lead's response. For example, categorize responses as Interested, Uninterested, or Request for Information. This will allow you to adjust follow-up strategies accordingly.
+  - Use Natural Language Processing (NLP) to classify the intent behind a lead's response. For example, categorize responses as Interested, Uninterested, or Request for Information. This will allow us to adjust follow-up strategies accordingly.
 
   - Automatically stop follow-ups if a lead responds with a "stop" or "unsubscribe" message.
 
