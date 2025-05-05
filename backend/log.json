@@ -502,5 +502,19 @@
     "phone": "+919131818652",
     "message": "Hey Bob! BorderPlus can guide you to success in UK Nursing. Let’s get started.",
     "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T20:31:23.385Z",
+    "name": "Alice",
+    "phone": "+917389506331",
+    "message": "Hi Alice, excited to help you start your US Nursing journey with BorderPlus!",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T20:31:23.680Z",
+    "name": "Bob",
+    "phone": "+919131818652",
+    "message": "Hey Bob! BorderPlus can guide you to success in UK Nursing. Let’s get started.",
+    "status": "failed"
   }
 ]
