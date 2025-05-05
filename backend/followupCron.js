@@ -1,5 +1,5 @@
 const cron = require("node-cron");
-const db = require("./db"); // our SQLite setup
+const db = require("./db");
 const { sendWhatsAppMessage } = require("./sendWhatsappMessage"); // adjust path
 const { getRandomTemplate } = require("./messageTemplates");
 
@@ -35,7 +35,9 @@ cron.schedule("* * * * *", async () => {
       for (const lead of candidates) {
         try {
           const message = `Hi again! Just following up on our previous message. Let me know your thoughts.`;
-          await sendWhatsAppMessage(lead.phone, message);
+          const followupResult = await sendWhatsAppMessage(lead.phone, message);
+
+          console.log("followup result", followupResult);
 
           const newCount = lead.followupCount + 1;
           const newStatus = newCount >= 2 ? "not_interested" : "followed_up";

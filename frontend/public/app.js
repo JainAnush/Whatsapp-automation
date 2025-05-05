@@ -13,6 +13,12 @@ document
 const dashboardTable = document.getElementById("campaignDetails");
 const tbody = dashboardTable.querySelector("tbody");
 
+if (tbody.rows.length === 0) {
+  dashboardTable.style.display = "none"; // Hide the table
+} else {
+  dashboardTable.style.display = "table"; // Show the table
+}
+
 async function sendCampaign() {
   tbody.innerHTML = "";
   // Update status on the UI
@@ -59,6 +65,11 @@ async function sendCampaign() {
     } else {
       document.getElementById("campaignStatus").textContent =
         "Error sending campaign";
+    }
+    if (tbody.rows.length === 0) {
+      dashboardTable.style.display = "none"; // Hide the table
+    } else {
+      dashboardTable.style.display = "table"; // Show the table
     }
   } catch (error) {
     console.error("Error:", error);

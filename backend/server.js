@@ -144,6 +144,8 @@ app.post(
     const from = req.body.From.replace("whatsapp:", "");
     const messageBody = req.body.Body;
 
+    console.log(`received message from: ${from}, message: ${messageBody}`);
+
     // Find all pending campaigns for this phone using db.all() directly
     db.all(
       "SELECT * FROM followups WHERE phone = ? AND hasResponded = 0",

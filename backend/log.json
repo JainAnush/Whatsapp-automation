@@ -432,5 +432,75 @@
     "phone": "+919131818652",
     "message": "Hello Parag, are you ready to explore opportunities in UK Nursing? BorderPlus is here for you.",
     "status": "sent"
+  },
+  {
+    "timestamp": "2025-05-05T20:04:30.231Z",
+    "name": "Alice",
+    "phone": "+917389506331",
+    "message": "Hi Alice, excited to help you start your US Nursing journey with BorderPlus!",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T20:04:30.566Z",
+    "name": "Parag",
+    "phone": "+919131818652",
+    "message": "Hello Parag, are you ready to explore opportunities in UK Nursing? BorderPlus is here for you.",
+    "status": "sent"
+  },
+  {
+    "timestamp": "2025-05-05T20:05:50.710Z",
+    "name": "Alice",
+    "phone": "+917389506331",
+    "message": "Hello Alice, are you ready to explore opportunities in US Nursing? BorderPlus is here for you.",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T20:05:50.985Z",
+    "name": "Parag",
+    "phone": "+919131818652",
+    "message": "Hi Parag, excited to help you start your UK Nursing journey with BorderPlus!",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T20:06:42.171Z",
+    "name": "Alice",
+    "phone": "+917389506331",
+    "message": "Hello Alice, are you ready to explore opportunities in US Nursing? BorderPlus is here for you.",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T20:06:42.446Z",
+    "name": "Bob",
+    "phone": "+919131818652",
+    "message": "Hey Bob! BorderPlus can guide you to success in UK Nursing. Let’s get started.",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T20:10:41.401Z",
+    "name": "Alice",
+    "phone": "+917389506331",
+    "message": "Hey Alice! BorderPlus can guide you to success in US Nursing. Let’s get started.",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T20:10:41.667Z",
+    "name": "Bob",
+    "phone": "+919131818652",
+    "message": "Hey Bob! BorderPlus can guide you to success in UK Nursing. Let’s get started.",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T20:16:26.285Z",
+    "name": "Alice",
+    "phone": "+917389506331",
+    "message": "Hello Alice, are you ready to explore opportunities in US Nursing? BorderPlus is here for you.",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T20:16:26.553Z",
+    "name": "Bob",
+    "phone": "+919131818652",
+    "message": "Hey Bob! BorderPlus can guide you to success in UK Nursing. Let’s get started.",
+    "status": "failed"
   }
 ]
