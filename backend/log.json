@@ -418,5 +418,19 @@
     "phone": "+919131818652",
     "message": "Hello Parag, are you ready to explore opportunities in UK Nursing? BorderPlus is here for you.",
     "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T19:45:04.537Z",
+    "name": "Alice",
+    "phone": "+917389506331",
+    "message": "Hi Alice, excited to help you start your US Nursing journey with BorderPlus!",
+    "status": "sent"
+  },
+  {
+    "timestamp": "2025-05-05T19:45:04.896Z",
+    "name": "Parag",
+    "phone": "+919131818652",
+    "message": "Hello Parag, are you ready to explore opportunities in UK Nursing? BorderPlus is here for you.",
+    "status": "sent"
   }
 ]
