@@ -116,3 +116,31 @@ The frontend runs on `http://localhost:5500`.
 - **DB Not Updating**: Ensure `followups` table exists and `INSERT` statements succeed.
 - **No Follow-ups**: Check if the cron job is running every minute.
 - **Twilio Errors**: Double-check your `.env` values.
+
+## Next steps I would take if I had 2 more days
+
+- Personalized Message Generation using GPT
+
+  - Implement a GPT-based model to dynamically generate personalized messages for each lead based on their profile data (e.g., name, interest, location). This will make messages more engaging and tailored, improving response rates.
+
+- Intent Recognition from Replies
+
+  - Use Natural Language Processing (NLP) to classify the intent behind a lead's response. For example, categorize responses as Interested, Uninterested, or Request for Information. This will allow you to adjust follow-up strategies accordingly.
+
+  - Automatically stop follow-ups if a lead responds with a "stop" or "unsubscribe" message.
+
+- Sentiment Analysis on Responses
+
+  - Implement sentiment analysis to detect whether a lead's response is positive, negative, or neutral. Based on the sentiment, the system can decide whether to push for further engagement or mark the lead as "not interested."
+
+  - For example, if a user responds with "Not now, but maybe later," the system could tag them as "follow-up later."
+
+- Smart Campaign Replies using RAG
+
+  - Enhance your WhatsApp campaigns by integrating Retrieval-Augmented Generation (RAG) to automatically generate intelligent, personalized replies to user responses.
+
+  - When a user replies to a campaign message, RAG fetches relevant information from a knowledge base (e.g., FAQs, service offerings, pricing, etc.).
+
+  - It then generates a contextual, human-like response using a language model (e.g., GPT-3.5).
+
+  - This helps handle common inquiries automatically, reduces manual workload, and keeps leads engaged effectively.
