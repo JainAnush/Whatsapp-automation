@@ -516,5 +516,75 @@
     "phone": "+919131818652",
     "message": "Hey Bob! BorderPlus can guide you to success in UK Nursing. Let’s get started.",
     "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T20:56:34.229Z",
+    "name": "Alice",
+    "phone": "+917389506331",
+    "message": "Hi Alice, excited to help you start your US Nursing journey with BorderPlus!",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T20:56:34.484Z",
+    "name": "Bob",
+    "phone": "+919131818652",
+    "message": "Hello Bob, are you ready to explore opportunities in UK GNM Course? BorderPlus is here for you.",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T20:58:28.102Z",
+    "name": "Alice",
+    "phone": "+917389506331",
+    "message": "Hello Alice, are you ready to explore opportunities in US Nursing? BorderPlus is here for you.",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T20:58:28.351Z",
+    "name": "Bob",
+    "phone": "+919131818652",
+    "message": "Hi Bob, excited to help you start your UK GNM Course journey with BorderPlus!",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T21:09:57.078Z",
+    "name": "Alice",
+    "phone": "+917389506331",
+    "message": "Hi Alice, excited to help you start your US Nursing journey with BorderPlus!",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T21:09:57.374Z",
+    "name": "Bob",
+    "phone": "+919131818652",
+    "message": "Hey Bob! BorderPlus can guide you to success in UK GNM Course. Let’s get started.",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T21:11:08.807Z",
+    "name": "Alice",
+    "phone": "+917389506331",
+    "message": "Hi Alice, excited to help you start your US Nursing journey with BorderPlus!",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T21:11:09.080Z",
+    "name": "Bob",
+    "phone": "+919131818652",
+    "message": "Hey Bob! BorderPlus can guide you to success in UK GNM Course. Let’s get started.",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T21:11:29.091Z",
+    "name": "Alice",
+    "phone": "+917389506331",
+    "message": "Hello Alice, are you ready to explore opportunities in US Nursing? BorderPlus is here for you.",
+    "status": "failed"
+  },
+  {
+    "timestamp": "2025-05-05T21:11:29.358Z",
+    "name": "Bob",
+    "phone": "+919131818652",
+    "message": "Hey Bob! BorderPlus can guide you to success in UK GNM Course. Let’s get started.",
+    "status": "failed"
   }
 ]

@@ -99,13 +99,16 @@ app.post("/sendCampaign", async (req, res) => {
         console.log(
           `📤 Sending message to ${lead.phone}: "${personalizedMessage}"`
         );
+
+        recordCampaign(lead.phone, campaignId); // for testing purpose only, record should be inserted only if message is sent successfully.
+
         const result = await sendWhatsAppMessage(
           lead.phone,
           personalizedMessage
         );
 
-        // Track in SQLite if sent successfully
-        recordCampaign(lead.phone, campaignId);
+        // // Track in SQLite if sent successfully
+        // recordCampaign(lead.phone, campaignId);
 
         results.push({ name: lead.name, status: "sent", sid: result.sid });
         logs.push({
