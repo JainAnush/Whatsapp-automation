@@ -43,3 +43,38 @@ button:hover {
 #statusDashboard p {
   margin: 10px 0;
 }
+
+#campaignDetails {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#campaignDetails thead {
+  background-color: #4caf50;
+  color: white;
+}
+
+#campaignDetails th,
+#campaignDetails td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+#campaignDetails tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#campaignDetails tr:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+#campaignDetails th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}

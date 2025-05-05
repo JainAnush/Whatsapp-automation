@@ -1,8 +1,20 @@
+console.log("reloaded!");
+
 document
   .getElementById("sendCampaignBtn")
-  .addEventListener("click", sendCampaign);
+  .addEventListener("click", function (e) {
+    e.preventDefault();
+    setTimeout(() => {
+      console.log("Page should not reload!");
+      sendCampaign();
+    }, 0);
+  });
+
+const dashboardTable = document.getElementById("campaignDetails");
+const tbody = dashboardTable.querySelector("tbody");
 
 async function sendCampaign() {
+  tbody.innerHTML = "";
   // Update status on the UI
   document.getElementById("campaignStatus").textContent = "Sending campaign...";
   document.getElementById("leadsSent").textContent = "0";
@@ -29,6 +41,16 @@ async function sendCampaign() {
         } else {
           failedMessages++;
         }
+        const newRow = document.createElement("tr");
+        const name = document.createElement("td");
+        name.innerHTML = result.name;
+        const status = document.createElement("td");
+        status.innerHTML = result.status;
+
+        newRow.appendChild(name);
+        newRow.appendChild(status);
+
+        tbody.appendChild(newRow);
       });
 
       document.getElementById("campaignStatus").textContent = "Campaign sent!";

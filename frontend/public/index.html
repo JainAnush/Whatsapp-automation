@@ -14,11 +14,20 @@
 
       <h2>Status</h2>
       <div id="statusDashboard">
+        <button id="RefreshCampaignBtn">Refresh Dashboard</button>
         <p>
           Campaign Status: <span id="campaignStatus">Waiting to send...</span>
         </p>
         <p>Total Leads Sent: <span id="leadsSent">0</span></p>
         <p>Failed Messages: <span id="failedMessages">0</span></p>
+
+        <table id="campaignDetails" border="1px">
+          <thead>
+            <th>Name</th>
+            <th>Status</th>
+          </thead>
+          <tbody></tbody>
+        </table>
       </div>
     </div>
 

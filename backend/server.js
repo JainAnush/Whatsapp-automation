@@ -28,7 +28,7 @@ let leads = [];
 function loadLeads() {
   return new Promise((resolve, reject) => {
     const results = [];
-    fs.createReadStream("./backend/leads.csv")
+    fs.createReadStream(path.join(__dirname, "leads.csv"))
       .pipe(csv())
       .on("data", (row) => results.push(row))
       .on("end", () => {
