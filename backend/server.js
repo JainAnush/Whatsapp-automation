@@ -104,7 +104,7 @@ app.post("/sendCampaign", async (req, res) => {
           personalizedMessage
         );
 
-        // ✅ Track in SQLite if sent successfully
+        // Track in SQLite if sent successfully
         recordCampaign(lead.phone, campaignId);
 
         results.push({ name: lead.name, status: "sent", sid: result.sid });
@@ -117,7 +117,7 @@ app.post("/sendCampaign", async (req, res) => {
         });
         console.log("message sent", results);
       } catch (err) {
-        console.error(`❌ Failed for ${lead.name}:`, err.message);
+        console.error(` Failed for ${lead.name}:`, err.message);
         results.push({ name: lead.name, status: "failed", error: err.message });
         logs.push({
           timestamp: new Date().toISOString(),
@@ -132,7 +132,7 @@ app.post("/sendCampaign", async (req, res) => {
     await writeLogBatch(logs);
     res.json(results);
   } catch (err) {
-    console.error("🔥 Error in sendCampaign:", err);
+    console.error(" Error in sendCampaign:", err);
     res.status(500).json({ error: err.message });
   }
 });

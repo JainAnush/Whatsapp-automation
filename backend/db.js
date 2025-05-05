@@ -7,9 +7,9 @@ const dbPath = path.join(__dirname, "followups.db");
 // Creates or opens followups.db
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
-    console.error("😓 Failed to connect to database:", err.message);
+    console.error("Failed to connect to database:", err.message);
   } else {
-    console.log("✅ Connected to SQLite database at", dbPath);
+    console.log("Connected to SQLite database at", dbPath);
 
     // Create table if not exists
     db.run(
@@ -26,9 +26,9 @@ const db = new sqlite3.Database(dbPath, (err) => {
     `,
       (err) => {
         if (err) {
-          console.error("😖 Failed to create table:", err.message);
+          console.error("Failed to create table:", err.message);
         } else {
-          console.log("🛠️ followups table ready to roll!");
+          console.log("followups table ready to roll!");
         }
       }
     );
